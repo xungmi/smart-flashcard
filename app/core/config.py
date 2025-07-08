@@ -17,6 +17,8 @@ class Settings(BaseSettings):
         "http://127.0.0.1:8080",
     ]
     
+    ALGORITHM: str = "HS256"  # ← thêm dòng này
+    
     # Database Configuration
     DATABASE_URL: str = "sqlite:///./flashcard_ai.db"
     

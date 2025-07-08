@@ -1,52 +1,25 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from typing import List
-import json
+from app.local_models.ocr.tesseract import extract_text_from_image as tesseract
 
-router = APIRouter()
 
-@router.post("/extract/text")
-async def extract_text_from_text(text: str):
-    """
-    Extract flashcards from plain text input
-    """
-    try:
-        # TODO: Implement text processing logic
-        # This will use the NLP service to extract key concepts
-        return {
-            "success": True,
-            "flashcards": [],
-            "message": "Text extraction endpoint"
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+router = APIRouter(prefix="/v1/extract", tags=["extract"])
 
-@router.post("/extract/image")
+
+@router.post("/image", summary="Trích xuất văn bản từ ảnh")
 async def extract_text_from_image(file: UploadFile = File(...)):
-    """
-    Extract text from image and generate flashcards
-    """
-    try:
-        # TODO: Implement OCR processing logic
-        # This will use the OCR service to extract text from images
-        return {
-            "success": True,
-            "flashcards": [],
-            "message": "Image extraction endpoint"
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    if file.content_type not in ["image/jpeg", "image/png"]:
+        raise HTTPException(status_code=400, detail="Chỉ hỗ trợ ảnh JPEG hoặc PNG")
 
-@router.post("/extract/file")
-async def extract_from_file(file: UploadFile = File(...)):
-    """
-    Extract flashcards from uploaded file (PDF, DOC, etc.)
-    """
     try:
-        # TODO: Implement file processing logic
+        image_bytes = await file.read()
+        extracted_text = tesseract(image_bytes)
+
+
         return {
             "success": True,
-            "flashcards": [],
-            "message": "File extraction endpoint"
+            "text": extracted_text,
+            "message": "OCR thành công"
         }
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) 
+        raise HTTPException(status_code=500, detail=f"Lỗi xử lý OCR: {str(e)}")

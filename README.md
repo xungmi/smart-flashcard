@@ -12,12 +12,12 @@ pip install -r requirements.txt
 
 ## Khởi chạy ứng dụng với Uvicorn
 ```bash
-PYTHONPATH=. uvicorn app.main:app --reload
+ PYTHONPATH=. python app/main.py 
 ```
 
 ```bash
 # Khởi chạy với .env truyền theo tham số
-ENV_FILE=./.env PYTHONPATH=. uvicorn app.main:app --reload
+ENV_FILE=./.env  PYTHONPATH=. python app/main.py 
 ```
 
 ## Các lệnh thao tác
