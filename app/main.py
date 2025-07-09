@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-from app.api.v1 import extract, flashcard, auth, translate
+from app.api.v1 import extract, flashcard, auth, translate, example_gen
 from app.core.config import settings
 
 app = FastAPI(
@@ -15,7 +15,7 @@ app = FastAPI(
 # app.include_router(flashcard.router, prefix="/api/v1", tags=["flashcard"])
 app.include_router(extract.router, prefix="/api/v1", tags=["extract"])
 app.include_router(translate.router, prefix="/api/v1", tags=["translate"])
-
+app.include_router(example_gen.router, prefix="/api/v1", tags=["example_gen"])
 
 @app.get("/")
 async def root():

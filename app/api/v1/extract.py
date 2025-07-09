@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.local_models.ocr.tesseract import extract_text_from_image as tesseract
 
 
-router = APIRouter(prefix="/v1/extract", tags=["extract"])
+router = APIRouter(prefix="/ocr/extract", tags=["extract"])
 
 
 @router.post("/image", summary="Trích xuất văn bản từ ảnh")
